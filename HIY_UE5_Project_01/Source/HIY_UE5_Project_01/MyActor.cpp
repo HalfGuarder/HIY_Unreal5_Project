@@ -49,6 +49,9 @@ void AMyActor::Tick(float DeltaTime)
 	// 문제점?
 	// AddActorLocalOffset(moveV * DeltaTime);
 
+	
+	SetActorLocation(GetActorLocation() + moveV * DeltaTime);
+
 	// 3. Quaternion (사원수)
 	// 사원수 회전에 대해서 조사해 보기
 }
