@@ -40,19 +40,8 @@ void AMyActor::Tick(float DeltaTime)
 	FRotator rot = FRotator(0.0f, 90.0f, 0.0f);
 	AddActorWorldRotation(rot * _rotationSpeed * DeltaTime);
 
-	// 1. Actor2가 공전할 때 Actor를 바라보며 공전
-	// - Actor는 계속 자전
-
 	FVector moveV = FVector(0.0f, _moveSpeed, 0.0f);
-	// AddActorWorldOffset(moveV * DeltaTime);
-	// 2. SetActorLocation()
-	// 문제점?
-	// AddActorLocalOffset(moveV * DeltaTime);
-
 	
-	SetActorLocation(GetActorLocation() + moveV * DeltaTime);
-
-	// 3. Quaternion (사원수)
-	// 사원수 회전에 대해서 조사해 보기
+	SetActorLocation(GetActorLocation() + moveV);
 }
 

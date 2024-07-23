@@ -52,18 +52,6 @@ void AMyActor_Extra::Tick(float DeltaTime)
 		AddActorWorldRotation(rot * _rotationSpeed * DeltaTime);
 	}
 
-	// 1. Actor2가 공전할 때 Actor를 바라보며 공전
-	// - Actor는 계속 자전
-
 	FVector moveV = FVector(0.0f, _moveSpeed, 0.0f);
-	// AddActorWorldOffset(moveV * DeltaTime);
-	// 2. SetActorLocation()
-	// 문제점?
-	// AddActorLocalOffset(moveV * DeltaTime);
-	// 왜 안 되는지 찾고, SetActorLocation으로 AddActorWorldOffset처럼 움직이게 만들기
-	
-
-	// 3. Quaternion (사원수)
-	// 사원수 회전에 대해서 조사해 보기
 }
 
