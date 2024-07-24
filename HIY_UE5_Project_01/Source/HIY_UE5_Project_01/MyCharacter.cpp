@@ -77,7 +77,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 void AMyCharacter::Move(const FInputActionValue& value)
 {
 	FVector2D movementVector = value.Get<FVector2D>();
-	if (Controller != nullptr)
+	if (Controller != nullptr && !isAttackingCheck)
 	{
 		AddMovementInput(GetActorForwardVector(), movementVector.Y);
 		AddMovementInput(GetActorRightVector(), movementVector.X);
@@ -98,7 +98,7 @@ void AMyCharacter::JumpA(const FInputActionValue& value)
 {
 	bool isPressed = value.Get<bool>();
 	
-	if (isPressed)
+	if (isPressed && !isAttackingCheck)
 	{
 		ACharacter::Jump();
 	}
@@ -108,13 +108,11 @@ void AMyCharacter::JumpA(const FInputActionValue& value)
 void AMyCharacter::Attack(const FInputActionValue& value)
 {
 	bool isPressed = value.Get<bool>();
-	isAttacking = isPressed;
+	isAttackingCheck = isPressed;
 	UE_LOG(LogTemp, Warning, TEXT("Attack!!"));
 	if (isPressed)
 	{
-		ACharacter::PlayAnimMontage(_attackAnimation, 1.0f);
-		
-		isAttacking = false;
+		ACharacter::PlayAnimMontage(_attackAnimation, 1.0f);		
 	}
 }
 

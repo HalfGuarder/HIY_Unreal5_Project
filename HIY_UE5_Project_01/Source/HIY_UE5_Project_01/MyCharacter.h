@@ -55,7 +55,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* _attackAction;
 
-	bool isAttacking;
+	bool isAttackingCheck;
 
 	// Camera
 	class USpringArmComponent* _springArm;

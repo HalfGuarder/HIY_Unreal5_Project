@@ -25,9 +25,10 @@ private:
 	float _speed;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool _isFalling;
+	
+	UFUNCTION()
+	void AnimNotify_AttackEndCheck();
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pawn, Meta = (AllowPrivateAccess = true))
-	//UAnimMontage* _attackAnimation;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool _isAttacking;
 

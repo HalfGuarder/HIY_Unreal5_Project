@@ -17,6 +17,12 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		_speed = myCharacter->GetVelocity().Size();
 		_isFalling = myCharacter->GetMovementComponent()->IsFalling();
-		_isAttacking = myCharacter->isAttacking;
+		_isAttacking = myCharacter->isAttackingCheck;
 	} // Use Falling?
+}
+
+void UMyAnimInstance::AnimNotify_AttackEndCheck()
+{
+	AMyCharacter* myCharacter = Cast<AMyCharacter>(TryGetPawnOwner());
+	myCharacter->isAttackingCheck = false;
 }
