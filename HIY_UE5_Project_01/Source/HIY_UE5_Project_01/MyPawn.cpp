@@ -17,7 +17,8 @@ AMyPawn::AMyPawn()
 	_movement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("Movement"));
 	RootComponent = _sm;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> mesh(TEXT("/Script/Engine.StaticMesh'/Game/StarterContent/Props/SM_TableRound.SM_TableRound'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> mesh
+	(TEXT("/Script/Engine.StaticMesh'/Game/StarterContent/Props/SM_TableRound.SM_TableRound'"));
 
 	if (mesh.Succeeded())
 	{
@@ -49,7 +50,6 @@ void AMyPawn::Look(const FInputActionValue& value)
 	if (Controller != nullptr)
 	{
 		AddControllerYawInput(lookAxisVector.X);
-
 	}
 }
 
