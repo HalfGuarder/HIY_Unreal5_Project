@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "MyAnimInstance.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -16,7 +17,6 @@ AMyCharacter::AMyCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// TODO
 	// Skeletal Mesh
 	static ConstructorHelpers::FObjectFinder <USkeletalMesh> sm
 	(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonCrunch/Characters/Heroes/Crunch/Meshes/Crunch.Crunch'"));
@@ -27,7 +27,8 @@ AMyCharacter::AMyCharacter()
 	}
 
 	// GookRullSetting
-	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
+	GetMesh()->SetRelativeLocationAndRotation
+	(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
 
 	_springArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	_camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
@@ -35,22 +36,36 @@ AMyCharacter::AMyCharacter()
 	// Capsule <- SpringArm <- Camera
 	_springArm->SetupAttachment(GetCapsuleComponent());
 	_camera->SetupAttachment(_springArm);
+	_camera->SetRelativeRotation(FRotator(15.0f, 0.0f, 0.0f));
 
-	_springArm->TargetArmLength = 500.0f;
-	_springArm->SetRelativeRotation(FRotator(-35.0f, 0.0f, 0.0f));
+	_springArm->TargetArmLength = 550.0f;
+	_springArm->SetRelativeRotation(FRotator(-50.0f, 0.0f, 0.0f));
 }
 
 // Called when the game starts or when spawned
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	auto animInstance = Cast<UMyAnimInstance>(GetMesh()->GetAnimInstance());
+	// whene montage end, _isAttack be false
+	animInstance->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnAttackEnded);
+
 }
 
 // Called every frame
 void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	// _myDelegate1.ExecuteIfBound();
+	
+	// 1.
+	// _myDelegate2.ExecuteIfBound(50, 30);
+
+	// 2. 
+	// auto myAnimI = GetMesh()->GetAnimInstance();
+	// Cast<UMyAnimInstance>(myAnimI)->DelegateTest2(50, 30);
 }
 
 // Called to bind functionality to input
@@ -74,10 +89,16 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	}
 }
 
+void AMyCharacter::OnAttackEnded(UAnimMontage* montage, bool bInterrupted)
+{
+	UE_LOG(LogTemp, Error, TEXT("Attack End!!"));
+	_isAttacking = false;
+}
+
 void AMyCharacter::Move(const FInputActionValue& value)
 {
 	FVector2D movementVector = value.Get<FVector2D>();
-	if (Controller != nullptr && !isAttackingCheck)
+	if (Controller != nullptr)
 	{
 		AddMovementInput(GetActorForwardVector(), movementVector.Y);
 		AddMovementInput(GetActorRightVector(), movementVector.X);
@@ -98,21 +119,21 @@ void AMyCharacter::JumpA(const FInputActionValue& value)
 {
 	bool isPressed = value.Get<bool>();
 	
-	if (isPressed && !isAttackingCheck)
+	if (isPressed)
 	{
 		ACharacter::Jump();
 	}
 }
 
-// AnimNotify
 void AMyCharacter::Attack(const FInputActionValue& value)
 {
 	bool isPressed = value.Get<bool>();
-	isAttackingCheck = isPressed;
-	UE_LOG(LogTemp, Warning, TEXT("Attack!!"));
-	if (isPressed)
+
+	if (isPressed && _isAttacking == false)
 	{
-		ACharacter::PlayAnimMontage(_attackAnimation, 1.0f);		
+		auto myAnimI = GetMesh()->GetAnimInstance();
+		Cast<UMyAnimInstance>(myAnimI)->PlayAttackMontage();
+		_isAttacking = true;
 	}
 }
 

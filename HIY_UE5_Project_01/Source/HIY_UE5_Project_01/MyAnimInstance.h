@@ -20,16 +20,17 @@ public:
 
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
+	void PlayAttackMontage();
+	void DelegateTest1();
+	void DelegateTest2(int32 hp, int32 mp);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	float _speed;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool _isFalling;
-	
-	UFUNCTION()
-	void AnimNotify_AttackEndCheck();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
-	bool _isAttacking;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pawn, Meta = (AllowPrivateAccess = true))
+	class UAnimMontage* _myAnimMontage;
 
 };

@@ -23,9 +23,26 @@
 - 구조체, 함수도 웬만하면 UObject를 상속 받는 것이 좋음
 - F가 붙으면 UObject를 상속 받는 객체가 아니다
 
-
-UPROPERTY( ? ) : 조사 과제
+UPROPERTY
 
 ConstructorHelpers
  - 생성자에서 언리얼 에디터에 존재(프로젝트 파일에 저장 되어 있는)하는 
 정보들을 읽어올 수 있게 돕는다
+
+- Delegate
+델리게이트 <-> 클래스 객체로 직접 함수 호출
+- 직접 호출 단점 : 클래스 간의 결합도
+
+// 과제
+- ConstructHelpers::FindObject, FindClass 용도
+
+- Local이 붙은 것과 붙지 않은 수학 함수의 참이
+
+- 언리얼의 Cast
+
+- 언리얼 액터의 수명 주기
+
+
+
+Pawn->look
+move to char
