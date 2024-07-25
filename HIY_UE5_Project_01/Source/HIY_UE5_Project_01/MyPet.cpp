@@ -28,12 +28,14 @@ void AMyPet::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	
 }
 
 // Called every frame
 void AMyPet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	checkDistance();
 
 }
 
@@ -45,12 +47,12 @@ void AMyPet::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 float AMyPet::checkDistance()
-{
-	//auto myCharacter = 
-	//float distance = GetDistanceTo(myChracter);
+{	
+	//AMyCharacter* myCharacter = Cast<AMyCharacter>(TryGetPawnOwner());
+	float distance = GetDistanceTo(_followMyChar);
 
-	//return distance;
+	UE_LOG(LogTemp, Warning, TEXT("Distance : %f"), distance);
 
-	return 0;
+	return distance;
 }
 

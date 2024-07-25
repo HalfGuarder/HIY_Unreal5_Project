@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MyCharacter.h"
 #include "GameFramework/Character.h"
 #include "MyPet.generated.h"
 
@@ -26,6 +27,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
+	class AMyCharacter* _followMyChar;
 
 public:	
 	// Called every frame

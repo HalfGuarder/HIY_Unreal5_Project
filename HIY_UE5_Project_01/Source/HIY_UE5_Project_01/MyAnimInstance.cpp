@@ -34,7 +34,7 @@ void UMyAnimInstance::PlayAttackMontage()
 	{
 		Montage_Play(_myAnimMontage);
 
-		AMyCharacter* myCharacter = Cast<AMyCharacter>(TryGetPawnOwner());
+		//AMyCharacter* myCharacter = Cast<AMyCharacter>(TryGetPawnOwner());
 		
 		// Subscribe
 		// myCharacter->_myDelegate1.BindUObject(this, &UMyAnimInstance::DelegateTest1);
