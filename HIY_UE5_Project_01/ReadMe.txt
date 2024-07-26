@@ -34,15 +34,9 @@ ConstructorHelpers
 - 직접 호출 단점 : 클래스 간의 결합도
 
 // 과제
-- ConstructHelpers::FindObject, FindClass 용도
-
-- Local이 붙은 것과 붙지 않은 수학 함수의 참이
-
-- 언리얼의 Cast
-
-- 언리얼 액터의 수명 주기
+1. 지금까지 한 수업 본인 프로젝트로 구현
+추가 과제 : 현재 레벨에 몬스터 Actor(Character형) 배치(C++)
+- 멤버 변수에 hp, attackDamage 추가
 
 
-
-Pawn->look
-move to char
+SpawnActor

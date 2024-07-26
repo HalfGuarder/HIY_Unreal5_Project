@@ -48,11 +48,13 @@ void AMyPet::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 float AMyPet::checkDistance()
 {	
-	//AMyCharacter* myCharacter = Cast<AMyCharacter>(TryGetPawnOwner());
-	float distance = GetDistanceTo(_followMyChar);
+	//AMyCharacter myCharacter = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	//float distance = GetDistanceTo(_followMyChar);
 
-	UE_LOG(LogTemp, Warning, TEXT("Distance : %f"), distance);
+	//UE_LOG(LogTemp, Warning, TEXT("Distance : %f"), distance);
 
-	return distance;
+	//return distance;
+
+	return 0;
 }
 

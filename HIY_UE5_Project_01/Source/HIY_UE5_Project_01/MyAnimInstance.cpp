@@ -25,6 +25,8 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		_speed = myCharacter->GetVelocity().Size();
 		_isFalling = myCharacter->GetMovementComponent()->IsFalling();
+		_vertical = _vertical + (myCharacter->_vertical - _vertical) * (DeltaSeconds);
+		_horizontal = _horizontal + (myCharacter->_horizontal - _horizontal) * (DeltaSeconds);
 	} // Use Falling?
 }
 
@@ -50,4 +52,15 @@ void UMyAnimInstance::DelegateTest1()
 void UMyAnimInstance::DelegateTest2(int32 hp, int32 mp)
 {
 	UE_LOG(LogTemp, Warning, TEXT("HP : %d , MP : %d"), hp, mp);
+}
+
+void UMyAnimInstance::JumpToSection(int32 sectionIndex)
+{
+	FName sectionName = FName(*FString::Printf(TEXT("Attack%d"), sectionIndex));
+	Montage_JumpToSection(sectionName);
+}
+
+void UMyAnimInstance::AnimNotify_AttackHit()
+{
+	_attackDelegate.Broadcast();
 }

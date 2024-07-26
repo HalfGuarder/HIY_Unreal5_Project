@@ -39,7 +39,8 @@ AMyCharacter::AMyCharacter()
 	_camera->SetRelativeRotation(FRotator(15.0f, 0.0f, 0.0f));
 
 	_springArm->TargetArmLength = 550.0f;
-	_springArm->SetRelativeRotation(FRotator(-50.0f, 0.0f, 0.0f));
+	_springArm->SetRelativeLocation(FVector(0.0f, 0.0f, 80.0f));
+	_springArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 }
 
 // Called when the game starts or when spawned
@@ -49,7 +50,11 @@ void AMyCharacter::BeginPlay()
 
 	auto animInstance = Cast<UMyAnimInstance>(GetMesh()->GetAnimInstance());
 	// whene montage end, _isAttack be false
+	// Delegate
 	animInstance->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnAttackEnded);
+
+	// animInstance->OnPlayMontageNotifyBegin.AddDynamic(this, &AMyCharacter::AttackHit);
+	animInstance->_attackDelegate.AddUObject(this, &AMyCharacter::AttackHit);
 
 }
 
@@ -85,7 +90,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 		EnhancedInputComponent->BindAction(_jumpAction, ETriggerEvent::Started, this, &AMyCharacter::JumpA);
 	
 		// Attacking
-		EnhancedInputComponent->BindAction(_attackAction, ETriggerEvent::Started, this, &AMyCharacter::Attack);
+		EnhancedInputComponent->BindAction(_attackAction, ETriggerEvent::Started, this, &AMyCharacter::AttackA);
 	}
 }
 
@@ -95,11 +100,19 @@ void AMyCharacter::OnAttackEnded(UAnimMontage* montage, bool bInterrupted)
 	_isAttacking = false;
 }
 
+void AMyCharacter::AttackHit()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Attack!!"));
+}
+
 void AMyCharacter::Move(const FInputActionValue& value)
 {
 	FVector2D movementVector = value.Get<FVector2D>();
 	if (Controller != nullptr)
 	{
+		_vertical = movementVector.Y;
+		_horizontal = movementVector.X;
+
 		AddMovementInput(GetActorForwardVector(), movementVector.Y);
 		AddMovementInput(GetActorRightVector(), movementVector.X);
 	}
@@ -125,7 +138,7 @@ void AMyCharacter::JumpA(const FInputActionValue& value)
 	}
 }
 
-void AMyCharacter::Attack(const FInputActionValue& value)
+void AMyCharacter::AttackA(const FInputActionValue& value)
 {
 	bool isPressed = value.Get<bool>();
 
@@ -134,6 +147,11 @@ void AMyCharacter::Attack(const FInputActionValue& value)
 		auto myAnimI = GetMesh()->GetAnimInstance();
 		Cast<UMyAnimInstance>(myAnimI)->PlayAttackMontage();
 		_isAttacking = true;
+
+		_curAttackIndex %= 3;
+		_curAttackIndex++;
+
+		Cast<UMyAnimInstance>(myAnimI)->JumpToSection(_curAttackIndex);
 	}
 }
 

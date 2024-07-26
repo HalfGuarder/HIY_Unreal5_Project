@@ -28,7 +28,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class AMyCharacter* _followMyChar;
 
 public:	

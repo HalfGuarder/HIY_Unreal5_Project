@@ -39,11 +39,14 @@ public:
 	UFUNCTION()
 	void OnAttackEnded(UAnimMontage* montage, bool bInterrupted);
 
+	UFUNCTION()
+	void AttackHit();
+
 protected:
 	void Move(const FInputActionValue& value);
 	void Look(const FInputActionValue& value);
 	void JumpA(const FInputActionValue& value);
-	void Attack(const FInputActionValue& value);
+	void AttackA(const FInputActionValue& value);
 	
 
 public:
@@ -64,6 +67,15 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	bool _isAttacking = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	int32 _curAttackIndex = 0;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	float _vertical = 0.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	float _horizontal = 0.0f;
 
 	// Camera
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
