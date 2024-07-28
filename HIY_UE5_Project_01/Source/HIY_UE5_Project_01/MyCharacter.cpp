@@ -63,13 +63,15 @@ void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
 	// _myDelegate1.ExecuteIfBound();
 	
 	// 1.
 	// _myDelegate2.ExecuteIfBound(50, 30);
 
 	// 2. 
-	// auto myAnimI = GetMesh()->GetAnimInstance();
+	// auto myAnimI = GetMesh()->GetA
+	// nimInstance();
 	// Cast<UMyAnimInstance>(myAnimI)->DelegateTest2(50, 30);
 }
 
