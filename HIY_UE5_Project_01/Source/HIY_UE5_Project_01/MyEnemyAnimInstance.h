@@ -6,6 +6,8 @@
 #include "Animation/AnimInstance.h"
 #include "MyEnemyAnimInstance.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(DeadDelegate);
+
 /**
  * 
  */
@@ -21,6 +23,12 @@ public:
 
 	void PlayDeadMontage();
 
-private:
+	UFUNCTION()
+	void AnimNotify_Dead();
 
+	DeadDelegate _deadDelegate;
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pawn, Meta = (AllowPrivateAccess = true))
+	class UAnimMontage* _myAnimMontage;
 };

@@ -4,6 +4,8 @@
 #include "MyEnemy.h"
 #include "MyCharacter.generated.h"
 
+#include "MyEnemyAnimInstance.h"
+
 
 // Sets default values
 AMyEnemy::AMyEnemy()
@@ -32,17 +34,21 @@ void AMyEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*for (int32 i = 1; i < 4; i++)
-	{
-		FName name = FName(TEXT("Enemy %d"), i);
-		FVector location = FVector(50 + (i * 200), 50 + (i * 200), 0);
-		FRotator rot = FRotator(0, 0, 0);
-		FActorSpawnParameters spawnParams;
-		UWorld* world = GetWorld();
 
-		AActor* enemy = world->SpawnActor(AMyEnemy::StaticClass(), &location, &rot);
-	}*/
-}//name, location, rot, spawnParams
+}
+
+void AMyEnemy::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	_enemyAnimInstance = Cast<UMyEnemyAnimInstance>(GetMesh()->GetAnimInstance());
+
+	if (_enemyAnimInstance->IsValidLowLevel())
+	{
+		_enemyAnimInstance->_deadDelegate.AddUObject(this, &AMyEnemy::DeadA);
+	}
+
+}
 
 // Called every frame
 void AMyEnemy::Tick(float DeltaTime)
@@ -71,7 +77,7 @@ float AMyEnemy::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 
 	if (IsDead())
 	{
-		DeadA();
+		_enemyAnimInstance->PlayDeadMontage();
 	}
 
 	return Damage;

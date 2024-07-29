@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "MyEnemy.generated.h"
 
+class UAnimMontage;
+
 UCLASS()
 class HIY_UE5_PROJECT_01_API AMyEnemy : public ACharacter
 {
@@ -18,6 +20,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
 
 public:	
 	// Called every frame
@@ -29,6 +32,8 @@ public:
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	bool IsDead();
+
+	class UMyEnemyAnimInstance* _enemyAnimInstance;
 
 protected:
 	void DeadA();

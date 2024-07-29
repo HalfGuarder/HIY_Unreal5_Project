@@ -74,10 +74,10 @@ void AMyCharacter::PostInitializeComponents()
 		_animInstance->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnAttackEnded);
 		_animInstance->_attackDelegate.AddUObject(this, &AMyCharacter::AttackHit);
 	}
-	else
-	{
-		int temp = 0;
-	}
+	//else
+	//{
+		//int temp = 0;
+	//}
 }
 
 // Called every frame
