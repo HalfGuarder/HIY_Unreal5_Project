@@ -5,9 +5,6 @@
 => 세트장 : 월드
 => 배우 : Actor
 
-
-
-
 [유니티]
 - 컴포넌트를 활용해 바닥부터 생성 가능
 
@@ -33,10 +30,13 @@ ConstructorHelpers
 델리게이트 <-> 클래스 객체로 직접 함수 호출
 - 직접 호출 단점 : 클래스 간의 결합도
 
-// 과제
-1. 지금까지 한 수업 본인 프로젝트로 구현
-추가 과제 : 현재 레벨에 몬스터 Actor(Character형) 배치(C++)
-- 멤버 변수에 hp, attackDamage 추가
+- 동적 할당
+-- Actor => SpawnActor
+-- Component => CreateDefaultSubobject
 
+- 충돌
+-- Block
+-- Overlap
 
-SpawnActor
+액터 = SpawnActor
+액터 x = CreateDefaultSubobject

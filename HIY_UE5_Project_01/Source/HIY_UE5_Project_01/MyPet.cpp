@@ -12,7 +12,7 @@ AMyPet::AMyPet()
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> sm
 	(TEXT("/Script/Engine.SkeletalMesh'/Game/AnimalVarietyPack/Fox/Meshes/SK_Fox.SK_Fox'"));
-
+	
 	if (sm.Succeeded())
 	{
 		GetMesh()->SetSkeletalMesh(sm.Object);
@@ -20,7 +20,14 @@ AMyPet::AMyPet()
 	GetMesh()->SetRelativeLocationAndRotation
 	(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
 
-
+	static ConstructorHelpers::FClassFinder<AMyCharacter> myCharacter
+	(TEXT("/Script/Engine.Blueprint'/Game/BluePrint/Player/MyCharacter_BP.MyCharacter_BP_C'"));
+	
+	if (myCharacter.Succeeded())
+	{
+		_myCharacterClass = myCharacter.Class;
+		myChar = Cast<AActor>(_myCharacterClass);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -35,7 +42,7 @@ void AMyPet::BeginPlay()
 void AMyPet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	checkDistance();
+	//checkDistance();
 
 }
 
@@ -46,15 +53,16 @@ void AMyPet::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-float AMyPet::checkDistance()
+float AMyPet::CheckDistance()
 {	
-	//AMyCharacter myCharacter = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-	//float distance = GetDistanceTo(_followMyChar);
+	float distance = GetDistanceTo(myChar);
 
 	//UE_LOG(LogTemp, Warning, TEXT("Distance : %f"), distance);
 
-	//return distance;
+	return distance;
+}
 
-	return 0;
+void AMyPet::FollowMyCharacter()
+{
 }
 

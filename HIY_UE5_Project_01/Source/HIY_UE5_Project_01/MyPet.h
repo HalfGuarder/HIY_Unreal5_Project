@@ -38,7 +38,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	float checkDistance();
+	float CheckDistance();
+
+	void FollowMyCharacter();
 
 	FollowCharDG _followCharDG;
+
+	UPROPERTY()
+	UClass* _myCharacterClass;
+	AActor* myChar;
 };

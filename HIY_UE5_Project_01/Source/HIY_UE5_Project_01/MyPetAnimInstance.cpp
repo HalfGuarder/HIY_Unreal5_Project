@@ -15,6 +15,6 @@ void UMyPetAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	AMyPet* myPet = Cast<AMyPet>(TryGetPawnOwner());
 	if (myPet != nullptr)
 	{
-		_distance = myPet->checkDistance();
+		_distance = myPet->CheckDistance();
 	}
 }

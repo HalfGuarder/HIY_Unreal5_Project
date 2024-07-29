@@ -13,6 +13,15 @@ UCLASS()
 class HIY_UE5_PROJECT_01_API AMyGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+public:
 	AMyGameModeBase();
+
+	virtual void BeginPlay() override;
+
+	UPROPERTY()
+	UClass* _enemyClass;
+
+	UPROPERTY()
+	TArray<class AMyEnemy*> _enemies;
 };
