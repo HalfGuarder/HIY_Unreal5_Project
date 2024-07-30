@@ -55,13 +55,12 @@ void AMyItem::OnMyCharacterOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s Collision"), *myCharacter->GetName());
 
-		if (myCharacter->GetMesh()->DoesSocketExist(myCharacter->_weaponSocketName))
+		myCharacter->SetWeapon(this);
+
+		/*if (myCharacter->GetMesh()->DoesSocketExist(myCharacter->_weaponSocketName))
 		{
 			_meshComponent->AttachToComponent(myCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, myCharacter->_weaponSocketName);
-		}
-
-		
-
+		}*/
 	}
 
 	return;

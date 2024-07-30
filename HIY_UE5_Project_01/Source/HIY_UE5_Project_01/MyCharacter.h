@@ -13,9 +13,6 @@ struct FInputActionValue;
 class UAnimMontage;
 class AMyItem;
 
-DECLARE_DELEGATE(DelegateTest1);
-DECLARE_DELEGATE_TwoParams(DelegateTestTwoParams, int32 hp, int32);
-
 UCLASS()
 class HIY_UE5_PROJECT_01_API AMyCharacter : public ACharacter
 {
@@ -54,6 +51,9 @@ public:
 	void AddItem(AMyItem* item);
 	void DropItem();
 
+	bool CanSetWeapon();
+	void SetWeapon(AMyItem* newWeapon);
+
 protected:
 	void Move(const FInputActionValue& value);
 	void Look(const FInputActionValue& value);
@@ -71,6 +71,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
 	class UInputAction* _jumpAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
+	class UInputAction* _dropItemAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation, meta = (AllowPrivateAccess = true))
 	UAnimMontage* _attackAnimation;
@@ -90,13 +93,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
 	float _horizontal = 0.0f;
 
-	UPROPERTY(VisibleAnyWhere, Category = Weapon)
-	UStaticMeshComponent* _weapon;
-
-	UPROPERTY(VisibleAnyWhere, Category = Weapon)
-	FName _weaponSocketName;
-
-
 	// Camera
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = true))
 	class USpringArmComponent* _springArm;
@@ -106,6 +102,17 @@ public:
 	// Animation
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = true))
 	class UMyAnimInstance* _animInstance;
+
+	// Items
+	UPROPERTY(VisibleAnyWhere, Category = Weapon)
+	UStaticMeshComponent* _weapon;
+
+	UPROPERTY(VisibleAnyWhere, Category = Weapon)
+	AMyItem* _currentWeapon;
+
+	UPROPERTY(VisibleAnyWhere, Category = Weapon)
+	FName _weaponSocketName;
+
 
 private:
 	// Stats

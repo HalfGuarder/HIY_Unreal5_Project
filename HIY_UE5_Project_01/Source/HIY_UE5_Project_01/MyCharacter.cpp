@@ -119,6 +119,9 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	
 		// Attacking
 		EnhancedInputComponent->BindAction(_attackAction, ETriggerEvent::Started, this, &AMyCharacter::AttackA);
+
+		// DropItem
+		EnhancedInputComponent->BindAction(_dropItemAction, ETriggerEvent::Started, this, &AMyCharacter::DropItem);
 	}
 }
 
@@ -190,11 +193,50 @@ void AMyCharacter::AddAttackDamage(AActor* actor, int32 amount)
 void AMyCharacter::AddItem(AMyItem* item)
 {
 	// Add
+	_myItems.Add(item);
 }
 
 void AMyCharacter::DropItem()
 {
+	if (_myItems.Num() == 0) return;
+
 	// Drop
+	AMyItem* targetItem = _myItems.Last();
+
+	if (targetItem == _currentWeapon)
+	{
+		_currentWeapon = nullptr;
+	}
+	
+	targetItem->SetActorHiddenInGame(true);
+
+	_myItems.Remove(targetItem);
+}
+
+bool AMyCharacter::CanSetWeapon()
+{
+	return (nullptr == _currentWeapon);
+}
+
+void AMyCharacter::SetWeapon(AMyItem* newWeapon)
+{
+	if (newWeapon != nullptr)
+	{
+		AddItem(newWeapon);
+		newWeapon->SetActorEnableCollision(false);
+
+		if (CanSetWeapon())
+		{
+			newWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, _weaponSocketName);
+		}
+		else
+		{
+			newWeapon->SetActorHiddenInGame(true);
+		}
+
+		newWeapon->SetOwner(this);
+		_currentWeapon = newWeapon;
+	}
 }
 
 void AMyCharacter::Move(const FInputActionValue& value)
