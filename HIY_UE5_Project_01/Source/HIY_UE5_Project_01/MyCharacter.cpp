@@ -207,8 +207,26 @@ void AMyCharacter::DropItem()
 	{
 		_currentWeapon = nullptr;
 	}
+
+	//targetItem->SetActorHiddenInGame(true);
+	targetItem->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
 	
-	targetItem->SetActorHiddenInGame(true);
+	int32 ranNum1 = 0;
+	int32 ranNum2 = 0;
+	int32 countNum = 0;
+	while (true)
+	{
+		ranNum1 = FMath::RandRange(-300, 300);
+		ranNum2 = FMath::RandRange(-300, 300);
+		countNum++;
+		if (ranNum1 > 100 || ranNum1 < -100 && ranNum2 > 100 || ranNum2 < -100) break;
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("%d"), countNum);
+	targetItem->SetActorLocation(this->GetActorLocation() + FVector(ranNum1, ranNum2, 0));
+	
+	targetItem->SetActorHiddenInGame(false);
+	targetItem->SetActorEnableCollision(true);
 
 	_myItems.Remove(targetItem);
 }
@@ -232,6 +250,7 @@ void AMyCharacter::SetWeapon(AMyItem* newWeapon)
 		else
 		{
 			newWeapon->SetActorHiddenInGame(true);
+			newWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 		}
 
 		newWeapon->SetOwner(this);
