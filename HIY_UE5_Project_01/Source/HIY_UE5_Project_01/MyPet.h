@@ -46,5 +46,5 @@ public:
 
 	UPROPERTY()
 	UClass* _myCharacterClass;
-	AActor* myChar;
+	AActor* _myChar;
 };

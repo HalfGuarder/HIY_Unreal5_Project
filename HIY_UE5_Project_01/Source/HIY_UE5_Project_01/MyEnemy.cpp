@@ -23,10 +23,6 @@ AMyEnemy::AMyEnemy()
 
 	GetMesh()->SetRelativeLocationAndRotation
 	(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
-
-	// Stats
-	_curHp = 1000;
-	_attackDamage = 100.0f;
 }
 
 // Called when the game starts or when spawned
@@ -34,7 +30,7 @@ void AMyEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	Init();
 }
 
 void AMyEnemy::PostInitializeComponents()
@@ -47,7 +43,27 @@ void AMyEnemy::PostInitializeComponents()
 	{
 		_enemyAnimInstance->_deadDelegate.AddUObject(this, &AMyEnemy::DeadA);
 	}
+}
 
+
+void AMyEnemy::Init()
+{
+	_maxHp = 300.0f;
+	_curHp = _maxHp;
+	_attackDamage = 100.0f;
+
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+	PrimaryActorTick.bCanEverTick = true;
+	// SetActorTickEnable(true);
+}
+
+void AMyEnemy::Disable()
+{
+	this->SetActorHiddenInGame(true);
+	this->SetActorEnableCollision(false);
+	PrimaryActorTick.bCanEverTick = false;
+	// SetActorTickEnable(false);
 }
 
 // Called every frame
@@ -70,9 +86,6 @@ float AMyEnemy::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 
 	_curHp -= Damage;
 
-	UE_LOG(LogTemp, Log, TEXT("Attacker = %s"), *DamageCauser->GetName());
-	UE_LOG(LogTemp, Log, TEXT("Current Hp = %f"), _curHp);
-
 	if (_curHp < 0) _curHp = 0;
 
 	if (IsDead())
@@ -93,8 +106,7 @@ bool AMyEnemy::IsDead()
 void AMyEnemy::DeadA()
 {
 	FString name = this->GetName();
-	UE_LOG(LogTemp, Error, TEXT("%s is Dead..."), *name);
 
-	this->Destroy();
+	Disable();
 }
 

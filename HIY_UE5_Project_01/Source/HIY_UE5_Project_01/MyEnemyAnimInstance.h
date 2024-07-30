@@ -7,6 +7,7 @@
 #include "MyEnemyAnimInstance.generated.h"
 
 DECLARE_MULTICAST_DELEGATE(DeadDelegate);
+DECLARE_MULTICAST_DELEGATE(DeathDelegate);
 
 /**
  * 
@@ -26,9 +27,16 @@ public:
 	UFUNCTION()
 	void AnimNotify_Dead();
 
+	UFUNCTION()
+	void AnimNotify_Death();
+
 	DeadDelegate _deadDelegate;
+	DeathDelegate _deathDelegate;
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	class UAnimMontage* _myAnimMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
+	bool _isDead;
+
 };

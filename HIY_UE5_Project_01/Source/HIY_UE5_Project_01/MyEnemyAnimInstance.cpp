@@ -15,6 +15,11 @@ UMyEnemyAnimInstance::UMyEnemyAnimInstance()
 	{
 		_myAnimMontage = am.Object;
 	}
+
+	//static ConstructorHelpers::FClassFinder<AMyEnemy> myEnemy
+	//(TEXT("/Script/Engine.Blueprint'/Game/BluePrint/Player/MyEnemy_BP.MyEnemy_BP_C'"));
+
+	
 }
 
 void UMyEnemyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -35,4 +40,9 @@ void UMyEnemyAnimInstance::PlayDeadMontage()
 void UMyEnemyAnimInstance::AnimNotify_Dead()
 {
 	_deadDelegate.Broadcast();
+}
+
+void UMyEnemyAnimInstance::AnimNotify_Death()
+{
+	_deathDelegate.Broadcast();
 }

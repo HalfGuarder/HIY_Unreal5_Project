@@ -11,6 +11,7 @@
 #include "Components/CapsuleComponent.h"
 #include "MyAnimInstance.h"
 #include "Engine/DamageEvents.h"
+#include "MyItem.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -42,6 +43,9 @@ AMyCharacter::AMyCharacter()
 	_springArm->TargetArmLength = 480.0f;
 	_springArm->SetRelativeLocation(FVector(-50.0f, 0.0f, 200.0f));
 	_springArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
+
+	
+	_weaponSocketName = (TEXT("hand_slide_r_Socket"));
 
 	
 }
@@ -121,7 +125,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 void AMyCharacter::Init()
 {
 	// Stats
-	_maxHp = 1000;
+	_maxHp = 1000.0f;
 	_curHp = _maxHp;
 	_attackDamage = 100.0f;
 }
@@ -137,7 +141,6 @@ float AMyCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 
 void AMyCharacter::OnAttackEnded(UAnimMontage* montage, bool bInterrupted)
 {
-	UE_LOG(LogTemp, Error, TEXT("Attack End!!"));
 	_isAttacking = false;
 }
 
@@ -177,6 +180,21 @@ void AMyCharacter::AttackHit()
 	DrawDebugSphere(GetWorld(), center, attackRadius, 12, drawColor, false, 2.0f);
 
 	
+}
+
+void AMyCharacter::AddAttackDamage(AActor* actor, int32 amount)
+{
+	
+}
+
+void AMyCharacter::AddItem(AMyItem* item)
+{
+	// Add
+}
+
+void AMyCharacter::DropItem()
+{
+	// Drop
 }
 
 void AMyCharacter::Move(const FInputActionValue& value)

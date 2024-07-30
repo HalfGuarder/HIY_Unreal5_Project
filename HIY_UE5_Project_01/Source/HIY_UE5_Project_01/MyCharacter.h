@@ -11,6 +11,7 @@ class UInputAction;
 class UInputMappingContext;
 struct FInputActionValue;
 class UAnimMontage;
+class AMyItem;
 
 DECLARE_DELEGATE(DelegateTest1);
 DECLARE_DELEGATE_TwoParams(DelegateTestTwoParams, int32 hp, int32);
@@ -44,6 +45,14 @@ public:
 
 	UFUNCTION()
 	void AttackHit();
+
+	// Stats
+	int32 GetCurHp() { return _curHp; }
+	void AddAttackDamage(AActor* actor, int32 amount);
+
+	// Items
+	void AddItem(AMyItem* item);
+	void DropItem();
 
 protected:
 	void Move(const FInputActionValue& value);
@@ -81,6 +90,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
 	float _horizontal = 0.0f;
 
+	UPROPERTY(VisibleAnyWhere, Category = Weapon)
+	UStaticMeshComponent* _weapon;
+
+	UPROPERTY(VisibleAnyWhere, Category = Weapon)
+	FName _weaponSocketName;
+
+
 	// Camera
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = true))
 	class USpringArmComponent* _springArm;
@@ -88,19 +104,19 @@ public:
 	class UCameraComponent* _camera;
 
 	// Animation
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = true))
 	class UMyAnimInstance* _animInstance;
-
-	//DelegateTest1 _myDelegate1;
-	//DelegateTestTwoParams _myDelegate2;
 
 private:
 	// Stats
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	float _maxHp;
+	int32 _maxHp;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	float _curHp;
+	int32 _curHp;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
 	float _attackDamage;	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Items, meta = (AllowPrivateAccess = true))
+	TArray<AMyItem*> _myItems;
 
 };

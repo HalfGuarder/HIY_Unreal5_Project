@@ -22,6 +22,11 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
 
+	void Init();
+
+
+	void Disable();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -36,11 +41,15 @@ public:
 	class UMyEnemyAnimInstance* _enemyAnimInstance;
 
 protected:
+
+	UFUNCTION()
 	void DeadA();
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	float _curHp;
+	int32 _maxHp;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
+	int32 _curHp;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
 	float _attackDamage;
 };
