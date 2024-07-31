@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "MyStatComponent.h"
+#include "MyInventoryComponent.h"
+
 #include "MyCharacter.generated.h"
 
 class UInputComponent;
@@ -12,6 +15,7 @@ class UInputMappingContext;
 struct FInputActionValue;
 class UAnimMontage;
 class AMyItem;
+class UMyInventoryComponent;
 
 UCLASS()
 class HIY_UE5_PROJECT_01_API AMyCharacter : public ACharacter
@@ -28,6 +32,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
 
+	void Init();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -44,15 +49,15 @@ public:
 	void AttackHit();
 
 	// Stats
-	int32 GetCurHp() { return _curHp; }
-	void AddAttackDamage(AActor* actor, int32 amount);
+	int32 GetCurHp() { return _statCom->GetCurHp(); }
+	void SetAttackDamage(AActor* actor, int32 amount);
 
 	// Items
-	void AddItem(AMyItem* item);
-	void DropItem();
+	void AddItem(AMyItem* item) { _invenCom->AddItem(item); }
+	void DropItem() { _invenCom->DropItem(); }
 
-	bool CanSetWeapon();
-	void SetWeapon(AMyItem* newWeapon);
+	bool CanSetWeapon() { _invenCom->CanSetWeapon(); }
+	void GetWeapon(AMyItem* newWeapon) { _invenCom->GetWeapon(newWeapon); }
 
 protected:
 	void Move(const FInputActionValue& value);
@@ -60,7 +65,6 @@ protected:
 	void JumpA(const FInputActionValue& value);
 	void AttackA(const FInputActionValue& value);
 
-	void Init();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
@@ -103,26 +107,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = true))
 	class UMyAnimInstance* _animInstance;
 
+	// Stat
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stat, meta = (AllowPrivateAccess = true))
+	int32 _level = 1;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
+	class UMyStatComponent* _statCom;
+
 	// Items
-	UPROPERTY(VisibleAnyWhere, Category = Weapon)
-	UStaticMeshComponent* _weapon;
-
-	UPROPERTY(VisibleAnyWhere, Category = Weapon)
-	AMyItem* _currentWeapon;
-
-	UPROPERTY(VisibleAnyWhere, Category = Weapon)
-	FName _weaponSocketName;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
+	UMyInventoryComponent* _invenCom;
 
 
 private:
-	// Stats
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	int32 _maxHp;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	int32 _curHp;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	float _attackDamage;	
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Items, meta = (AllowPrivateAccess = true))
 	TArray<AMyItem*> _myItems;
 

@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyCharacter.h"
 #include "GameFramework/Actor.h"
+
 #include "MyItem.generated.h"
 
 UCLASS()
@@ -32,10 +32,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void SetItemPos(FVector pos, FRotator rot = FRotator::ZeroRotator);
+
 	UPROPERTY(VisibleAnywhere)
 	class UStaticMeshComponent* _meshComponent;
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* _trigger;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
+	int32 _damage = 100;
 
 };

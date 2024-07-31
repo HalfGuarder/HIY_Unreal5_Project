@@ -43,7 +43,7 @@ void AMyPet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	FollowMyCharacter();
+	FollowCharacter();
 }
 
 // Called to bind functionality to input
@@ -62,8 +62,10 @@ float AMyPet::CheckDistance()
 	return distance;
 }
 
-void AMyPet::FollowMyCharacter()
+void AMyPet::FollowCharacter()
 {
+	if (CheckDistance() < 300) return;
 
-
+	//move to location or actor
+	//ai move to
 }

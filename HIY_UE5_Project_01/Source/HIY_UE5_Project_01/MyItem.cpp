@@ -54,8 +54,8 @@ void AMyItem::OnMyCharacterOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	if(myCharacter != nullptr)
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s Collision"), *myCharacter->GetName());
-
-		myCharacter->SetWeapon(this);
+	
+		myCharacter->GetWeapon(this);
 
 		/*if (myCharacter->GetMesh()->DoesSocketExist(myCharacter->_weaponSocketName))
 		{
@@ -83,5 +83,12 @@ void AMyItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AMyItem::SetItemPos(FVector pos, FRotator rot)
+{
+	SetActorLocation(pos);
+	SetActorRotation(rot);
+	Init();
 }
 

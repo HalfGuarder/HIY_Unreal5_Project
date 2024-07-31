@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "MyStatComponent.h"
+
 #include "MyEnemy.generated.h"
 
 class UAnimMontage;
@@ -24,7 +26,6 @@ protected:
 
 	void Init();
 
-
 	void Disable();
 
 public:	
@@ -38,18 +39,22 @@ public:
 
 	bool IsDead();
 
-	class UMyEnemyAnimInstance* _enemyAnimInstance;
+	// Stats
+	int32 GetCurHp() { return _statCom->GetCurHp(); }
+
 
 protected:
 
 	UFUNCTION()
 	void DeadA();
 
-private:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	int32 _maxHp;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	int32 _curHp;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	float _attackDamage;
+public:
+	class UMyEnemyAnimInstance* _enemyAnimInstance;
+
+public:
+	// Stat
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stat, meta = (AllowPrivateAccess = true))
+	int32 _level = 1;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
+	class UMyStatComponent* _statCom;
 };

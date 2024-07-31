@@ -40,7 +40,7 @@ public:
 
 	float CheckDistance();
 
-	void FollowMyCharacter();
+	void FollowCharacter();
 
 	FollowCharDG _followCharDG;
 

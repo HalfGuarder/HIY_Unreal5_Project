@@ -9,9 +9,12 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "MyAnimInstance.h"
+#include "Math/UnrealMathUtility.h"
 #include "Engine/DamageEvents.h"
+#include "MyAnimInstance.h"
 #include "MyItem.h"
+#include "MyStatComponent.h"
+
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -44,10 +47,11 @@ AMyCharacter::AMyCharacter()
 	_springArm->SetRelativeLocation(FVector(-50.0f, 0.0f, 200.0f));
 	_springArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 
-	
-	_weaponSocketName = (TEXT("hand_slide_r_Socket"));
+	// Stat
+	_statCom = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat"));
 
-	
+	// Inventory
+	_invenCom = CreateDefaultSubobject<UMyInventoryComponent>(TEXT("Inventory"));
 }
 
 // Called when the game starts or when spawned
@@ -78,10 +82,8 @@ void AMyCharacter::PostInitializeComponents()
 		_animInstance->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnAttackEnded);
 		_animInstance->_attackDelegate.AddUObject(this, &AMyCharacter::AttackHit);
 	}
-	//else
-	//{
-		//int temp = 0;
-	//}
+	
+	_statCom->SetLevelAndInit(_level);
 }
 
 // Called every frame
@@ -127,10 +129,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 void AMyCharacter::Init()
 {
-	// Stats
-	_maxHp = 1000.0f;
-	_curHp = _maxHp;
-	_attackDamage = 100.0f;
+	_statCom->Reset();
 }
 
 float AMyCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -139,7 +138,11 @@ float AMyCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 	// _hp -= Damage
 	// Print Attacker Name
 
-	return 0.0f;
+	Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+
+	float damaged = _statCom->SetCurHp(-Damage);
+
+	return damaged;
 }
 
 void AMyCharacter::OnAttackEnded(UAnimMontage* montage, bool bInterrupted)
@@ -178,84 +181,18 @@ void AMyCharacter::AttackHit()
 		drawColor = FColor::Red;
 
 		FDamageEvent damageEvent;
-		hitResult.GetActor()->TakeDamage(_attackDamage, damageEvent, this->GetController(), this);
+		hitResult.GetActor()->TakeDamage(_statCom->GetAttackDamage(), damageEvent, this->GetController(), this);
 	}
 	DrawDebugSphere(GetWorld(), center, attackRadius, 12, drawColor, false, 2.0f);
 
 	
 }
 
-void AMyCharacter::AddAttackDamage(AActor* actor, int32 amount)
+void AMyCharacter::SetAttackDamage(AActor* actor, int32 amount)
 {
-	
-}
+	// actor = what set attack damage
 
-void AMyCharacter::AddItem(AMyItem* item)
-{
-	// Add
-	_myItems.Add(item);
-}
-
-void AMyCharacter::DropItem()
-{
-	if (_myItems.Num() == 0) return;
-
-	// Drop
-	AMyItem* targetItem = _myItems.Last();
-
-	if (targetItem == _currentWeapon)
-	{
-		_currentWeapon = nullptr;
-	}
-
-	//targetItem->SetActorHiddenInGame(true);
-	targetItem->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
-	
-	int32 ranNum1 = 0;
-	int32 ranNum2 = 0;
-	int32 countNum = 0;
-	while (true)
-	{
-		ranNum1 = FMath::RandRange(-300, 300);
-		ranNum2 = FMath::RandRange(-300, 300);
-		countNum++;
-		if (ranNum1 > 100 || ranNum1 < -100 && ranNum2 > 100 || ranNum2 < -100) break;
-	}
-
-	UE_LOG(LogTemp, Log, TEXT("%d"), countNum);
-	targetItem->SetActorLocation(this->GetActorLocation() + FVector(ranNum1, ranNum2, 0));
-	
-	targetItem->SetActorHiddenInGame(false);
-	targetItem->SetActorEnableCollision(true);
-
-	_myItems.Remove(targetItem);
-}
-
-bool AMyCharacter::CanSetWeapon()
-{
-	return (nullptr == _currentWeapon);
-}
-
-void AMyCharacter::SetWeapon(AMyItem* newWeapon)
-{
-	if (newWeapon != nullptr)
-	{
-		AddItem(newWeapon);
-		newWeapon->SetActorEnableCollision(false);
-
-		if (CanSetWeapon())
-		{
-			newWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, _weaponSocketName);
-		}
-		else
-		{
-			newWeapon->SetActorHiddenInGame(true);
-			newWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		}
-
-		newWeapon->SetOwner(this);
-		_currentWeapon = newWeapon;
-	}
+	_statCom->SetAttackDamage(amount);
 }
 
 void AMyCharacter::Move(const FInputActionValue& value)

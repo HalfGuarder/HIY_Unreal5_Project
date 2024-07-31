@@ -2,8 +2,7 @@
 
 
 #include "MyEnemy.h"
-#include "MyCharacter.generated.h"
-
+#include "MyStatComponent.h"
 #include "MyEnemyAnimInstance.h"
 
 
@@ -23,6 +22,9 @@ AMyEnemy::AMyEnemy()
 
 	GetMesh()->SetRelativeLocationAndRotation
 	(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
+
+	// Stat
+	_statCom = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat"));
 }
 
 // Called when the game starts or when spawned
@@ -43,19 +45,18 @@ void AMyEnemy::PostInitializeComponents()
 	{
 		_enemyAnimInstance->_deadDelegate.AddUObject(this, &AMyEnemy::DeadA);
 	}
+
+	_statCom->SetLevelAndInit(_level);
 }
 
 
 void AMyEnemy::Init()
 {
-	_maxHp = 300.0f;
-	_curHp = _maxHp;
-	_attackDamage = 100.0f;
+	_statCom->Reset();
 
-	SetActorHiddenInGame(false);
-	SetActorEnableCollision(true);
-	PrimaryActorTick.bCanEverTick = true;
-	// SetActorTickEnable(true);
+	// SetActorHiddenInGame(false);
+	// SetActorEnableCollision(true);
+	// PrimaryActorTick.bCanEverTick = true;
 }
 
 void AMyEnemy::Disable()
@@ -84,9 +85,7 @@ float AMyEnemy::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 {
 	Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 
-	_curHp -= Damage;
-
-	if (_curHp < 0) _curHp = 0;
+	float damaged = _statCom->SetCurHp(-Damage);
 
 	if (IsDead())
 	{
@@ -98,7 +97,7 @@ float AMyEnemy::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 
 bool AMyEnemy::IsDead()
 {
-	if (_curHp == 0) return true;
+	if (GetCurHp() == 0) return true;
 
 	return false;
 }
