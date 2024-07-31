@@ -28,6 +28,8 @@ protected:
 
 	void Disable();
 
+	void SpawnItem();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -49,7 +51,12 @@ protected:
 	void DeadA();
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = true))
 	class UMyEnemyAnimInstance* _enemyAnimInstance;
+
+	UPROPERTY()
+	UClass* _itemClass;
+
 
 public:
 	// Stat

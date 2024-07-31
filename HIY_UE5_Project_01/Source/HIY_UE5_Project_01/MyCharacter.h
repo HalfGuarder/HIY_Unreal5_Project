@@ -15,7 +15,6 @@ class UInputMappingContext;
 struct FInputActionValue;
 class UAnimMontage;
 class AMyItem;
-class UMyInventoryComponent;
 
 UCLASS()
 class HIY_UE5_PROJECT_01_API AMyCharacter : public ACharacter
@@ -56,7 +55,7 @@ public:
 	void AddItem(AMyItem* item) { _invenCom->AddItem(item); }
 	void DropItem() { _invenCom->DropItem(); }
 
-	bool CanSetWeapon() { _invenCom->CanSetWeapon(); }
+	bool CanSetWeapon() { return _invenCom->CanSetWeapon(); }
 	void GetWeapon(AMyItem* newWeapon) { _invenCom->GetWeapon(newWeapon); }
 
 protected:

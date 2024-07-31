@@ -15,14 +15,12 @@ UMyInventoryComponent::UMyInventoryComponent()
 
 }
 
-
 // Called when the game starts
 void UMyInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
 
+}
 
 // Called every frame
 void UMyInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -33,15 +31,19 @@ void UMyInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 
 void UMyInventoryComponent::PrintItemList()
 {
-	int32 itemIndex = 0;
+	int32 itemIndex = _myItems.Num();
 
-	while (!(itemIndex > _myItems.Num()))
+	GEngine->AddOnScreenDebugMessage(-1, 3.5f, FColor::Magenta, FString::Printf(TEXT("------------")));
+	while (!(itemIndex <= 0))
 	{
+		FString itemName = _myItems[itemIndex - 1]->GetName();
 		if (GEngine)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Magenta, FString::Printf(TEXT("Item %d : %s"), itemIndex, _myItems[itemIndex]->GetName()));
+			GEngine->AddOnScreenDebugMessage(-1, 3.5f, FColor::Magenta, FString::Printf(TEXT("%s"), *itemName));
 		}
+		itemIndex--;
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 3.5f, FColor::Magenta, FString::Printf(TEXT("---Items---")));
 }
 
 void UMyInventoryComponent::AddItem(AMyItem* item)
@@ -55,12 +57,12 @@ void UMyInventoryComponent::DropItem()
 {
 	if (_myItems.Num() == 0) return;
 
-	//auto _myCharacter = Cast<AMyCharacter>(GetWorld()->GetFirstPlayerController()->GetOwner());
+	auto _myCharacter = Cast<AMyCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	AMyItem* targetItem = _myItems.Last();
 
 	if (targetItem == _currentWeapon)
 	{		
-		//_myCharacter->SetAttackDamage(_currentWeapon, -(_currentWeapon->_damage));
+		_myCharacter->SetAttackDamage(_currentWeapon, -(_currentWeapon->_damage));
 		_currentWeapon = nullptr;
 	}
 
@@ -70,9 +72,9 @@ void UMyInventoryComponent::DropItem()
 	float X = cosf(ranAngle) * 300;
 	float Y = sinf(ranAngle) * 300;
 
-	//FVector playerPos = _myCharacter->GetActorLocation();
+	FVector playerPos = _myCharacter->GetActorLocation();
 
-	//targetItem->SetItemPos(playerPos + FVector(X, Y, 0.0f));
+	targetItem->SetItemPos(playerPos + FVector(X, Y, 0.0f));
 
 	_myItems.Remove(targetItem);
 }
@@ -86,7 +88,7 @@ void UMyInventoryComponent::GetWeapon(AMyItem* newWeapon)
 {
 	if (newWeapon != nullptr)
 	{
-		//auto _myCharacter = Cast<AMyCharacter>(GetWorld()->GetFirstPlayerController()->GetOwner());
+		auto _myCharacter = Cast<AMyCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 		AddItem(newWeapon);
 		newWeapon->SetActorEnableCollision(false);
 
@@ -94,7 +96,7 @@ void UMyInventoryComponent::GetWeapon(AMyItem* newWeapon)
 		{
 			newWeapon->AttachToComponent(_myCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, _weaponSocketRH);
 			_currentWeapon = newWeapon;
-			//_myCharacter->SetAttackDamage(newWeapon, newWeapon->_damage);
+			_myCharacter->SetAttackDamage(newWeapon, newWeapon->_damage);
 		}
 		else
 		{
@@ -102,7 +104,7 @@ void UMyInventoryComponent::GetWeapon(AMyItem* newWeapon)
 			newWeapon->AttachToComponent(_myCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 		}
 
-		//newWeapon->SetOwner(_myCharacter);
+		newWeapon->SetOwner(_myCharacter);
 	}
 
 }

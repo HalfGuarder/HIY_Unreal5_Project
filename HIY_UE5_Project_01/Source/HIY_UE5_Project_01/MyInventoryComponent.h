@@ -48,8 +48,8 @@ public:
 
 
 protected:
-	UPROPERTY()
-	AMyCharacter* _myCharacter;
+	// UPROPERTY()
+	// AMyCharacter* _myCharacter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item, meta = (AllowPrivateAccess = true))
 	TArray<AMyItem*> _myItems;

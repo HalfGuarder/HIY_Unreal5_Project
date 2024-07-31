@@ -4,7 +4,9 @@
 #include "MyEnemy.h"
 #include "MyStatComponent.h"
 #include "MyEnemyAnimInstance.h"
+#include "MyItem.h"
 
+#include "Math/UnrealMathUtility.h"
 
 // Sets default values
 AMyEnemy::AMyEnemy()
@@ -25,6 +27,14 @@ AMyEnemy::AMyEnemy()
 
 	// Stat
 	_statCom = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat"));
+
+	// Item
+	static ConstructorHelpers::FClassFinder<AMyItem> myItem
+	(TEXT("/Script/CoreUObject.Class'/Script/HIY_UE5_Project_01.MyItem'"));
+	if (myItem.Succeeded())
+	{
+		_itemClass = myItem.Class;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -44,6 +54,7 @@ void AMyEnemy::PostInitializeComponents()
 	if (_enemyAnimInstance->IsValidLowLevel())
 	{
 		_enemyAnimInstance->_deadDelegate.AddUObject(this, &AMyEnemy::DeadA);
+		_enemyAnimInstance->_deadDelegate.AddUObject(this, &AMyEnemy::SpawnItem);
 	}
 
 	_statCom->SetLevelAndInit(_level);
@@ -65,6 +76,18 @@ void AMyEnemy::Disable()
 	this->SetActorEnableCollision(false);
 	PrimaryActorTick.bCanEverTick = false;
 	// SetActorTickEnable(false);
+}
+
+void AMyEnemy::SpawnItem()
+{
+	float ranAngle = FMath::FRandRange(0, PI * 2.0f);
+	float X = cosf(ranAngle) * 150;
+	float Y = sinf(ranAngle) * 150;
+
+	FVector location = GetActorLocation() + FVector(X, Y, 0.0f);
+	FRotator rotator = GetActorRotation();
+
+	AMyItem* item = GetWorld()->SpawnActor<AMyItem>(_itemClass, location, rotator);
 }
 
 // Called every frame
@@ -104,7 +127,7 @@ bool AMyEnemy::IsDead()
 
 void AMyEnemy::DeadA()
 {
-	FString name = this->GetName();
+	// FString name = this->GetName();
 
 	Disable();
 }
