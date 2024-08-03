@@ -51,7 +51,10 @@ public:
 	int32 GetCurHp() { return _statCom->GetCurHp(); }
 	void SetAttackDamage(AActor* actor, int32 amount);
 
-	// Items
+	// Inventory
+	void InvenOpenClose() { _invenCom->InvenOpenClose(); }
+	void CheckItem(AMyItem* collisionItem) { _invenCom->CheckItem(collisionItem); }
+	void PickUpItem() { _invenCom->PickUpItem(); }
 	void AddItem(AMyItem* item) { _invenCom->AddItem(item); }
 	void DropItem() { _invenCom->DropItem(); }
 
@@ -64,7 +67,6 @@ protected:
 	void JumpA(const FInputActionValue& value);
 	void AttackA(const FInputActionValue& value);
 
-
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
 	class UInputAction* _moveAction;
@@ -75,8 +77,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
 	class UInputAction* _jumpAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
-	class UInputAction* _dropItemAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation, meta = (AllowPrivateAccess = true))
 	UAnimMontage* _attackAnimation;
@@ -111,14 +111,20 @@ public:
 	int32 _level = 1;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
 	class UMyStatComponent* _statCom;
-
-	// Items
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
-	UMyInventoryComponent* _invenCom;
+	class UWidgetComponent* _hpBarWidget;
 
+	// Inventory
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inven, meta = (AllowPrivateAccess = true))
+	class UMyInventoryComponent* _invenCom;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
+	class UInputAction* _invenOpenCloseAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
+	class UInputAction* _pickUpItemAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
+	class UInputAction* _dropItemAction;
 private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Items, meta = (AllowPrivateAccess = true))
-	TArray<AMyItem*> _myItems;
 
 };

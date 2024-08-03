@@ -14,12 +14,13 @@
 #include "MyAnimInstance.h"
 #include "MyItem.h"
 #include "MyStatComponent.h"
-
+#include "Components/WidgetComponent.h"
+#include "MyHpBar.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Skeletal Mesh
@@ -48,23 +49,30 @@ AMyCharacter::AMyCharacter()
 	_springArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 
 	// Stat
-	_statCom = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat"));
+	_statCom = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat_Com"));
+
+	_hpBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HpBar"));
+	_hpBarWidget->SetupAttachment(GetMesh());
+	_hpBarWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	_hpBarWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 270.0f));
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> hpBar
+	(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/BluePrint/UI/MyHpBar_BP.MyHpBar_BP_C'"));
+	if (hpBar.Succeeded())
+	{
+		_hpBarWidget->SetWidgetClass(hpBar.Class);
+	}
 
 	// Inventory
-	_invenCom = CreateDefaultSubobject<UMyInventoryComponent>(TEXT("Inventory"));
+	_invenCom = CreateDefaultSubobject<UMyInventoryComponent>(TEXT("Inventory_Com"));
+
+
 }
 
 // Called when the game starts or when spawned
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();	
-
-	//_animInstance = Cast<UMyAnimInstance>(GetMesh()->GetAnimInstance());
-	// whene montage end, _isAttack be false
-	// Delegate
-	//_animInstance->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnAttackEnded);
-
-	//_animInstance->_attackDelegate.AddUObject(this, &AMyCharacter::AttackHit);
 
 	Init();
 }
@@ -74,8 +82,6 @@ void AMyCharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 
 	_animInstance = Cast<UMyAnimInstance>(GetMesh()->GetAnimInstance());
-	// whene montage end, _isAttack be false
-	// Delegate
 	
 	if (_animInstance->IsValidLowLevel())
 	{
@@ -84,6 +90,14 @@ void AMyCharacter::PostInitializeComponents()
 	}
 	
 	_statCom->SetLevelAndInit(_level);
+	
+	// hpBar Bind
+	_hpBarWidget->InitWidget();
+	auto hpBar = Cast<UMyHpBar>(_hpBarWidget->GetUserWidgetObject());
+	if (hpBar != nullptr)
+	{
+		_statCom->_hpChangedDelegate.AddUObject(hpBar, &UMyHpBar::SetHpBarValue);
+	}
 }
 
 // Called every frame
@@ -122,8 +136,14 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 		// Attacking
 		EnhancedInputComponent->BindAction(_attackAction, ETriggerEvent::Started, this, &AMyCharacter::AttackA);
 
+		// InvenOpenClose
+		EnhancedInputComponent->BindAction(_invenOpenCloseAction, ETriggerEvent::Started, this, &AMyCharacter::InvenOpenClose);
+		
+		// PickUpItem
+		EnhancedInputComponent->BindAction(_pickUpItemAction, ETriggerEvent::Started, this, &AMyCharacter::PickUpItem);
+	
 		// DropItem
-		EnhancedInputComponent->BindAction(_dropItemAction, ETriggerEvent::Started, this, &AMyCharacter::DropItem);
+		// EnhancedInputComponent->BindAction(_dropItemAction, ETriggerEvent::Started, this, &AMyCharacter::InvenOpenClose);
 	}
 }
 

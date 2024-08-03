@@ -51,11 +51,14 @@ void AMyItem::OnMyCharacterOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 {
 	auto myCharacter = Cast<AMyCharacter>(OtherActor);
 
-	if(myCharacter != nullptr)
+	CheckItem(myCharacter, this);
+
+	if (myCharacter != nullptr)
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s Collision"), *myCharacter->GetName());
 	
 		myCharacter->GetWeapon(this);
+		
 
 		/*if (myCharacter->GetMesh()->DoesSocketExist(myCharacter->_weaponSocketName))
 		{
@@ -64,6 +67,12 @@ void AMyItem::OnMyCharacterOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	}
 
 	return;
+}
+
+void AMyItem::CheckItem(AActor* OtherActor, AMyItem* collisionItem)
+{
+	auto myCharacter = Cast<AMyCharacter>(OtherActor);
+	myCharacter->CheckItem(collisionItem);
 }
 
 void AMyItem::Init()

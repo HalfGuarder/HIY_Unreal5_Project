@@ -19,9 +19,11 @@ public:
 
 	virtual void BeginPlay() override;
 
+	// Spawn
 	UPROPERTY()
 	UClass* _enemyClass;
 
 	UPROPERTY()
 	TArray<class AMyEnemy*> _enemies;
+
 };

@@ -10,6 +10,11 @@
 class AMyCharacter;
 class AMyItem;
 
+DECLARE_MULTICAST_DELEGATE(InventoryOpenCloseDlgt);
+DECLARE_MULTICAST_DELEGATE(PickUpItemDlgt);
+
+DECLARE_MULTICAST_DELEGATE_TwoParams(ItemAdded, int32 itemId, int32 itemIndex);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class HIY_UE5_PROJECT_01_API UMyInventoryComponent : public UActorComponent
 {
@@ -27,8 +32,13 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	void InvenOpenClose();
+	void InvenAttachment();
+
 	void PrintItemList();
 
+	void CheckItem(AMyItem* collisionItem) { _collisionItem = collisionItem; }
+	void PickUpItem();
 	void AddItem(AMyItem* item);
 	void DropItem();
 
@@ -46,13 +56,22 @@ public:
 	UPROPERTY(VisibleAnyWhere, Category = Weapon)
 	FName _weaponSocketRH = TEXT("hand_slide_r_Socket");
 
+	InventoryOpenCloseDlgt _invenOpenCloseDelegate;
+	PickUpItemDlgt _pickUpItemDelegate;
+	ItemAdded _itemAddedDlgt;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = true))
+	class UUserWidget* _invenWidget;
+	// class UWidgetComponent* _invenWidget;
+
+	// Class
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = true))
+	class UUserWidget* _invenWidgetUI;*/
 
 protected:
-	// UPROPERTY()
-	// AMyCharacter* _myCharacter;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item, meta = (AllowPrivateAccess = true))
 	TArray<AMyItem*> _myItems;
 
-
+	bool _acceptPickUp = false;
+	AMyItem* _collisionItem = nullptr;
 };

@@ -5,8 +5,10 @@
 #include "MyStatComponent.h"
 #include "MyEnemyAnimInstance.h"
 #include "MyItem.h"
+#include "MyHpBar.h"
 
 #include "Math/UnrealMathUtility.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 AMyEnemy::AMyEnemy()
@@ -28,6 +30,19 @@ AMyEnemy::AMyEnemy()
 	// Stat
 	_statCom = CreateDefaultSubobject<UMyStatComponent>(TEXT("Stat"));
 
+	_hpBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HpBar"));
+	_hpBarWidget->SetupAttachment(GetMesh());
+	_hpBarWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	_hpBarWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 270.0f));
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> hpBar
+	(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/BluePrint/UI/MyHpBar_BP.MyHpBar_BP_C'"));
+
+	if (hpBar.Succeeded())
+	{
+		_hpBarWidget->SetWidgetClass(hpBar.Class);
+	}
+
 	// Item
 	static ConstructorHelpers::FClassFinder<AMyItem> myItem
 	(TEXT("/Script/CoreUObject.Class'/Script/HIY_UE5_Project_01.MyItem'"));
@@ -35,6 +50,8 @@ AMyEnemy::AMyEnemy()
 	{
 		_itemClass = myItem.Class;
 	}
+
+
 }
 
 // Called when the game starts or when spawned
@@ -58,6 +75,13 @@ void AMyEnemy::PostInitializeComponents()
 	}
 
 	_statCom->SetLevelAndInit(_level);
+
+	_hpBarWidget->InitWidget();
+	auto hpBar = Cast<UMyHpBar>(_hpBarWidget->GetUserWidgetObject());
+	if (hpBar != nullptr)
+	{
+		_statCom->_hpChangedDelegate.AddUObject(hpBar, &UMyHpBar::SetHpBarValue);
+	}
 }
 
 
@@ -123,6 +147,13 @@ bool AMyEnemy::IsDead()
 	if (GetCurHp() == 0) return true;
 
 	return false;
+}
+
+void AMyEnemy::SetAttackDamage(AActor* actor, int32 amount)
+{
+	// actor = what set attack damage
+
+	_statCom->SetAttackDamage(amount);
 }
 
 void AMyEnemy::DeadA()

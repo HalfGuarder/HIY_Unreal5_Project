@@ -7,6 +7,20 @@
 
 #include "MyItem.generated.h"
 
+/*UENUM()
+enum class ItemType
+{
+
+};
+
+USTRUCT()
+struct ItemInfo
+{
+	int32 itemId;
+	ItemType type;
+};*/
+
+
 UCLASS()
 class HIY_UE5_PROJECT_01_API AMyItem : public AActor
 {
@@ -24,7 +38,10 @@ protected:
 	UFUNCTION()
 	void OnMyCharacterOverlap
 	(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromWeep, const FHitResult& SweepResult);
-
+	
+	UFUNCTION()
+	void CheckItem(AActor* OtherActor, AMyItem* collisionItem);
+	
 	void Init();
 	void Disable();
 
@@ -40,7 +57,14 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* _trigger;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 _itemId = 1;
+
+
+	
+	// UPROPERTY(VisibleAnywhere)
+	// ItemInfo _info;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
 	int32 _damage = 100;
-
 };

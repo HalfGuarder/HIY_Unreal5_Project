@@ -43,6 +43,7 @@ public:
 
 	// Stats
 	int32 GetCurHp() { return _statCom->GetCurHp(); }
+	void SetAttackDamage(AActor* actor, int32 amount);
 
 
 protected:
@@ -51,17 +52,19 @@ protected:
 	void DeadA();
 
 public:
+	// Animation
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = true))
 	class UMyEnemyAnimInstance* _enemyAnimInstance;
 
+	// Items
 	UPROPERTY()
 	UClass* _itemClass;
 
-
-public:
 	// Stat
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Stat, meta = (AllowPrivateAccess = true))
 	int32 _level = 1;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
 	class UMyStatComponent* _statCom;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Stat, meta = (AllowPrivateAccess = true))
+	class UWidgetComponent* _hpBarWidget;
 };

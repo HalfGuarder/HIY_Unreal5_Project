@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\HIY_UE5_Project_01.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\HIY_UE5_Project_01.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\HIY_UE5_Project_01Editor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\.vsconfig" />
+    <None Include="..\..\ReadMe.txt" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\HIY_UE5_Project_01">
+      <UniqueIdentifier>{8D68C769-DF8A-3C14-8539-662C433BFB22}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\HIY_UE5_Project_01\HIY_UE5_Project_01.Build.cs">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\HIY_UE5_Project_01.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\HIY_UE5_Project_01.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyActor.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyActor.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyActor_Extra.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyActor_Extra.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyAnimInstance.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyAnimInstance.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyCharacter.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyCharacter.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyEnemy.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyEnemy.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyEnemyAnimInstance.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyEnemyAnimInstance.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyGameInstance.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyGameInstance.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyGameModeBase.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyGameModeBase.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyHpBar.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyHpBar.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyInventoryComponent.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyInventoryComponent.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyInventoryUI.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyInventoryUI.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyItem.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyItem.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyJumpUI.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyJumpUI.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyPawn.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyPawn.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyPet.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyPet.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyPetAnimInstance.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyPetAnimInstance.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyPlayerController.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyPlayerController.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\HIY_UE5_Project_01\MyStatComponent.cpp">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\HIY_UE5_Project_01\MyStatComponent.h">
+      <Filter>Source\HIY_UE5_Project_01</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
