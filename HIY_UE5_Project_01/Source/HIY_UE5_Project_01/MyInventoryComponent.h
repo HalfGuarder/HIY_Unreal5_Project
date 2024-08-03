@@ -13,7 +13,7 @@ class AMyItem;
 DECLARE_MULTICAST_DELEGATE(InventoryOpenCloseDlgt);
 DECLARE_MULTICAST_DELEGATE(PickUpItemDlgt);
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(ItemAdded, int32 itemId, int32 itemIndex);
+DECLARE_MULTICAST_DELEGATE_TwoParams(ItemAddedDlgt, int32 itemId, int32 itemIndex);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class HIY_UE5_PROJECT_01_API UMyInventoryComponent : public UActorComponent
@@ -33,7 +33,6 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void InvenOpenClose();
-	void InvenAttachment();
 
 	void PrintItemList();
 
@@ -56,12 +55,12 @@ public:
 	UPROPERTY(VisibleAnyWhere, Category = Weapon)
 	FName _weaponSocketRH = TEXT("hand_slide_r_Socket");
 
-	InventoryOpenCloseDlgt _invenOpenCloseDelegate;
-	PickUpItemDlgt _pickUpItemDelegate;
-	ItemAdded _itemAddedDlgt;
+	InventoryOpenCloseDlgt _invenOpenCloseDlgt;
+	PickUpItemDlgt _pickUpItemDlgt;
+	ItemAddedDlgt _itemAddedDlgt;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = true))
-	class UUserWidget* _invenWidget;
+	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AllowPrivateAccess = true))
+	// class UUserWidget* _invenWidget;
 	// class UWidgetComponent* _invenWidget;
 
 	// Class

@@ -23,10 +23,12 @@ void UMyInventoryUI::NativeConstruct()
 		}
 	}
 
-	_axe = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Graphics/Icons/Tex_tools_01_b.Tex_tools_01_b'"));
-	_default = LoadObject<UTexture2D>(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Graphics/Icons/Tex_default_slot.Tex_default_slot'"));
-	
-	// _slotBtnImages[0]->SetBrushFromTexture(_axe);
+	_axe = LoadObject<UTexture2D>
+	(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Graphics/Icons/Tex_tools_01_b.Tex_tools_01_b'"));
+	_default = LoadObject<UTexture2D>
+	(nullptr, TEXT("/Script/Engine.Texture2D'/Game/Graphics/Icons/Tex_default_slot.Tex_default_slot'"));
+
+	Inven_Panel->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void UMyInventoryUI::InvenOpenClose()
@@ -47,7 +49,7 @@ void UMyInventoryUI::InvenOpenClose()
 
 void UMyInventoryUI::SetItem(int32 itemId, int32 index)
 {
-	if(_slotBtnImages.IsEmpty() || _slotBtnImages.IsValidIndex(index)) return;
+	if(_slotBtnImages.IsEmpty() || !_slotBtnImages.IsValidIndex(index)) return;
 
 	if (itemId == -1)
 	{

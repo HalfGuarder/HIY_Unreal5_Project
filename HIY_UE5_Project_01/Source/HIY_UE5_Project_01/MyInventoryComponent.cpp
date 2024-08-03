@@ -14,25 +14,6 @@ UMyInventoryComponent::UMyInventoryComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
-	
-	_invenWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Inventory_UI"));
-	// _invenWidget->SetWidgetSpace(EWidgetSpace::Screen);
-
-	/*static ConstructorHelpers::FClassFinder<UUserWidget> inven
-	(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/BluePrint/UI/MyInventoryUI_BP.MyInventoryUI_BP_C'"));
-	if (inven.Succeeded())
-	{
-		_invenWidget->SetWidgetClass(inven.Class);
-	}*/
-
-	// Class
-	static ConstructorHelpers::FClassFinder<UMyInventoryUI> invenUI
-	(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/BluePrint/UI/MyInventoryUI_BP.MyInventoryUI_BP_C'"));
-	
-	if (invenUI.Succeeded())
-	{
-		_invenWidget = CreateWidget<UUserWidget>(GetWorld(), invenUI.Class);
-	}
 
 }
 
@@ -40,28 +21,6 @@ UMyInventoryComponent::UMyInventoryComponent()
 void UMyInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// _invenWidget->InitWidget();
-
-	/*auto inven = Cast<UMyInventoryUI>(_invenWidget->GetUserWidgetObject());
-	if (inven != nullptr)
-	{
-		_invenOpenCloseDelegate.AddUObject(inven, &UMyInventoryUI::InvenOpenClose);
-		inven->InvenOpenClose();
-		inven->AddToViewport();
-		_itemAddedDlgt.AddUObject(inven, &UMyInventoryUI::SetItem);
-	}*/
-
-	// Class
-	auto inven = Cast<UMyInventoryUI>(_invenWidget);
-	if (_invenWidget != nullptr)
-	{
-		_invenOpenCloseDelegate.AddUObject(inven, &UMyInventoryUI::InvenOpenClose);
-		_itemAddedDlgt.AddUObject(inven, &UMyInventoryUI::SetItem);
-		_invenWidget->AddToViewport();
-	}
-
-
 
 }
 
@@ -74,13 +33,7 @@ void UMyInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 
 void UMyInventoryComponent::InvenOpenClose()
 {
-	_invenOpenCloseDelegate.Broadcast();
-}
-
-void UMyInventoryComponent::InvenAttachment()
-{
-	// auto myCharacter = Cast<AMyCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	// _invenWidget->SetupAttachment(myCharacter->GetMesh());
+	_invenOpenCloseDlgt.Broadcast();
 }
 
 void UMyInventoryComponent::PrintItemList()

@@ -117,6 +117,8 @@ public:
 	// Inventory
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inven, meta = (AllowPrivateAccess = true))
 	class UMyInventoryComponent* _invenCom;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inven, meta = (AllowPrivateAccess = true))
+	class UUserWidget* _invenWidget;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
 	class UInputAction* _invenOpenCloseAction;
 

@@ -16,6 +16,7 @@
 #include "MyStatComponent.h"
 #include "Components/WidgetComponent.h"
 #include "MyHpBar.h"
+#include "MyInventoryUI.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -66,6 +67,12 @@ AMyCharacter::AMyCharacter()
 	// Inventory
 	_invenCom = CreateDefaultSubobject<UMyInventoryComponent>(TEXT("Inventory_Com"));
 
+	static ConstructorHelpers::FClassFinder<UMyInventoryUI> invenUIClass
+	(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/BluePrint/UI/MyInventoryUI_BP.MyInventoryUI_BP_C'"));
+	if (invenUIClass.Succeeded())
+	{
+		_invenWidget = CreateWidget<UUserWidget>(GetWorld(), invenUIClass.Class);
+	}
 
 }
 
@@ -75,6 +82,8 @@ void AMyCharacter::BeginPlay()
 	Super::BeginPlay();	
 
 	Init();
+
+	if (_invenWidget != nullptr) _invenWidget->AddToViewport();
 }
 
 void AMyCharacter::PostInitializeComponents()
@@ -98,6 +107,14 @@ void AMyCharacter::PostInitializeComponents()
 	{
 		_statCom->_hpChangedDelegate.AddUObject(hpBar, &UMyHpBar::SetHpBarValue);
 	}
+
+	// inven Bind
+	auto invenUI = Cast<UMyInventoryUI>(_invenWidget);
+	if (invenUI != nullptr)
+	{
+		_invenCom->_invenOpenCloseDlgt.AddUObject(invenUI, &UMyInventoryUI::InvenOpenClose);
+		_invenCom->_itemAddedDlgt.AddUObject(invenUI, &UMyInventoryUI::SetItem);
+	}
 }
 
 // Called every frame
@@ -105,16 +122,6 @@ void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
-	// _myDelegate1.ExecuteIfBound();
-	
-	// 1.
-	// _myDelegate2.ExecuteIfBound(50, 30);
-
-	// 2. 
-	// auto myAnimI = GetMesh()->GetA
-	// nimInstance();
-	// Cast<UMyAnimInstance>(myAnimI)->DelegateTest2(50, 30);
 }
 
 // Called to bind functionality to input
@@ -197,7 +204,6 @@ void AMyCharacter::AttackHit()
 
 	if (bResult && hitResult.GetActor()->IsValidLowLevel())
 	{
-		//UE_LOG(LogTemp, Log, TEXT("HitActor : %s"), *hitResult.GetActor()->GetName());
 		drawColor = FColor::Red;
 
 		FDamageEvent damageEvent;
@@ -211,7 +217,6 @@ void AMyCharacter::AttackHit()
 void AMyCharacter::SetAttackDamage(AActor* actor, int32 amount)
 {
 	// actor = what set attack damage
-
 	_statCom->SetAttackDamage(amount);
 }
 
