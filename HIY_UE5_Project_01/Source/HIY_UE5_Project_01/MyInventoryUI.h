@@ -38,4 +38,8 @@ public:
 	TArray<class UImage*> _slotBtnImages;
 	class UTexture2D* _axe;
 	class UTexture2D* _default;
+
+	// DropBtn
+	UPROPERTY(meta = (BindWidget))
+	class UButton* Drop_Btn;
 };

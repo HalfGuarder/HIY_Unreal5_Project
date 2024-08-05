@@ -56,7 +56,10 @@ public:
 	void CheckItem(AMyItem* collisionItem) { _invenCom->CheckItem(collisionItem); }
 	void PickUpItem() { _invenCom->PickUpItem(); }
 	void AddItem(AMyItem* item) { _invenCom->AddItem(item); }
+	UFUNCTION()
 	void DropItem() { _invenCom->DropItem(); }
+
+	void SetItem(int32 itemId, int32 index);
 
 	bool CanSetWeapon() { return _invenCom->CanSetWeapon(); }
 	void GetWeapon(AMyItem* newWeapon) { _invenCom->GetWeapon(newWeapon); }
@@ -117,8 +120,7 @@ public:
 	// Inventory
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inven, meta = (AllowPrivateAccess = true))
 	class UMyInventoryComponent* _invenCom;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inven, meta = (AllowPrivateAccess = true))
-	class UUserWidget* _invenWidget;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
 	class UInputAction* _invenOpenCloseAction;
 

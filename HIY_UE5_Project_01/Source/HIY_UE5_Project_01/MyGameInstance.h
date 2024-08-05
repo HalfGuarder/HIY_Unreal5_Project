@@ -11,6 +11,11 @@
 /**
  * 
  */
+
+class AMyUIManager;
+
+#define UIManager Cast<UMyGameInstance>(GetGameInstance())->GetUIManager()
+
 UCLASS()
 class HIY_UE5_PROJECT_01_API UMyGameInstance : public UGameInstance
 {
@@ -23,8 +28,13 @@ public:
 
 	FMyStatData* GetStatDataByLevel(int32 level);
 
+	AMyUIManager* GetUIManager() { return _uiManager; }
+
 private:
 	UPROPERTY()
 	class UDataTable* _statTable;
+
+	UPROPERTY()
+	class AMyUIManager* _uiManager;
 
 };

@@ -14,6 +14,10 @@ class HIY_UE5_PROJECT_01_API AMyPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+public:
+	void ShowMouseCursor();
+	void HideMouseCursor();
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)

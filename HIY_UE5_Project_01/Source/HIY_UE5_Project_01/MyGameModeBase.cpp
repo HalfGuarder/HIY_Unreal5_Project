@@ -6,6 +6,7 @@
 #include "MyCharacter.h"
 #include "MyEnemy.h"
 #include "MyPet.h"
+#include "MyAIController.h"
 
 AMyGameModeBase::AMyGameModeBase()
 {
@@ -37,11 +38,15 @@ void AMyGameModeBase::BeginPlay()
 	FVector location = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() + FVector(1000.0f, 0.0f, 500.0f);
 	FRotator rotator = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorRotation();
 
-	for (int32 i = 0; i < 3; i++)
+
+	// TODO :: MyMonster.cpp
+	/*for (int32 i = 0; i < 3; i++)
 	{
 		location.X += 200.0 * i;
 		location.Y += 200.0 * i;
 		AMyEnemy* enemy = GetWorld()->SpawnActor<AMyEnemy>(_enemyClass, location, rotator);
+		// enemy->AIControllerClass = AMyAIController::StaticClass();
+		// enemy->AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 		_enemies.Add(enemy);
-	}
+	}*/
 }

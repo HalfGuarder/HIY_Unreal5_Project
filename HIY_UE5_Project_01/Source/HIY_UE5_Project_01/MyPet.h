@@ -40,7 +40,7 @@ public:
 
 	float CheckDistance();
 
-	void FollowCharacter();
+	FVector FollowCharacter();
 
 	FollowCharDG _followCharDG;
 

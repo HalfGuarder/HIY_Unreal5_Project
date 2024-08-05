@@ -31,6 +31,13 @@ void UMyInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 
 }
 
+void UMyInventoryComponent::ShowHideMouseCursor()
+{
+	// GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
+
+	// GetWorld()->GetFirstPlayerController()->bShowMouseCursor = false;
+}
+
 void UMyInventoryComponent::InvenOpenClose()
 {
 	_invenOpenCloseDlgt.Broadcast();
@@ -95,6 +102,8 @@ void UMyInventoryComponent::DropItem()
 	targetItem->SetItemPos(playerPos + FVector(X, Y, 0.0f));
 
 	_myItems.Remove(targetItem);
+	int32 itemsSize = _myItems.Num();
+	myCharacter->SetItem(-1, itemsSize);
 }
 
 bool UMyInventoryComponent::CanSetWeapon()

@@ -2,6 +2,7 @@
 
 
 #include "MyInventoryUI.h"
+#include "MyCharacter.h"
 #include "Components/UniformGridPanel.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
@@ -36,12 +37,14 @@ void UMyInventoryUI::InvenOpenClose()
 	if (_isOpen == true)
 	{
 		Inven_Panel->SetVisibility(ESlateVisibility::Collapsed);
+		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = false;
 		_isOpen = false;
 		return;
 	}
 	else
 	{
 		Inven_Panel->SetVisibility(ESlateVisibility::Visible);
+		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 		_isOpen = true;
 		return;
 	}

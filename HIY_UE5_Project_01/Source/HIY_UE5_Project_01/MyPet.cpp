@@ -26,7 +26,6 @@ AMyPet::AMyPet()
 	if (myCharacter.Succeeded())
 	{
 		_myCharacterClass = myCharacter.Class;
-		//_myChar = Cast<AActor>(_myCharacterClass);
 	}
 }
 
@@ -43,7 +42,7 @@ void AMyPet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	FollowCharacter();
+	// FollowCharacter();
 }
 
 // Called to bind functionality to input
@@ -55,16 +54,20 @@ void AMyPet::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 float AMyPet::CheckDistance()
 {	
-	float distance = GetDistanceTo(_myChar);
+	auto myChar = Cast<AMyCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	float distance = GetDistanceTo(myChar);
 
 	//UE_LOG(LogTemp, Warning, TEXT("Distance : %f"), distance);
 
 	return distance;
 }
 
-void AMyPet::FollowCharacter()
+FVector AMyPet::FollowCharacter()
 {
-	if (CheckDistance() < 300) return;
+	if (CheckDistance() < 300) return GetActorLocation();
+
+	auto myChar = Cast<AMyCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	return myChar->GetActorLocation();
 
 	//move to location or actor
 	//ai move to

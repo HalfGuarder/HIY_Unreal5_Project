@@ -5,6 +5,16 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 
+void AMyPlayerController::ShowMouseCursor()
+{
+	bShowMouseCursor = true;
+}
+
+void AMyPlayerController::HideMouseCursor()
+{
+	bShowMouseCursor = false;
+}
+
 void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
